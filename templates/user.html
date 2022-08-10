@@ -1,0 +1,12 @@
+<h1>Hola {{name | upper}}</h1>
+<h3> {{pizzas}}</h3>
+{% for p in pizzas %}
+    {{p}}<br>
+    {% if p == 67 %}
+        {{p + 100}}
+    {% else%}
+        <p>No hay nada</p>
+    {% endif %}
+{% endfor %}
+
+<h1>{{pizzas.0 | reverse}}</h1>
