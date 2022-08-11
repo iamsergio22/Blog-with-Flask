@@ -10,22 +10,16 @@
     
 {% endfor %}
 
-{% if name %}
-    <h1>Hello {{ name }} </h1>
-    <br>
-    <img src="{{url_for('static',filename='img/ss.jpg')}}" width="800px" alt="">
-    <p id="demo">This is stuff</p>
-    <!-- <script src="{{url_for('static',filename='js/myfile.js')}}"></script> -->
-{% else %}
-    <h1>What's your name?</h1>
-    <br>
-    <form method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.name.label(class="form-label") }}
-        {{ form.name(class="form-control")}}
-        <br>
-        {{form.submit(class="btn btn-primary mb-3")}}
-    </form>
-{% endif %}
+<form action="/add" method="post">
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label" >Nombre</label>
+      <input type="text" class="form-control" name="nombre" id="exampleInputEmail1" aria-describedby="emailHelp">      
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
     
 {% endblock %}
