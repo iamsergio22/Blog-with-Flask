@@ -64,15 +64,18 @@
         <th scope="col">Nombre</th>
         <th scope="col">Correo</th>
         <th scope="col">Fecha de cumpleaños</th>
+        <th scope="col">Operaciones</th>
       </tr>
     </thead>
     <tbody>
       {% for user in users %}
       <tr>
         <th scope="row">{{user.0}}</th>
-        <td>{{user.1}}</td>
+        <td><a href="{{url_for('edit',id=user.0)}}">{{user.1}}</a></td>
         <td>{{user.2}}</td>
         <td>{{user.3}}</td>
+       <td><a class="btn btn-danger pt-1 m-0" href="{{url_for("delete",id=user.0)}}">Eliminar</a></td>
+       <td><a class="btn btn-success pt-1 m-sm-0" href="{{url_for("edit",id=user.0)}}">Editar</a></td>
       </tr>
       {% endfor%}     
     </tbody>

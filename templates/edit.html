@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages()%}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor %}
+
+{% for inf in info %}
+<form action="/update/{{inf.0}}" method="POST">
+  
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label" " >Nombre</label>      
+      <input type="text" class="form-control" required="true" value="{{inf.1}}" name="nombre" id="exampleInputEmail1" aria-describedby="emailHelp">      
+    </div>     
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email</label>
+        <input type="email" required="true" class="form-control" value="{{inf.2}}" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    
+      <div class="row">
+         <div class='col-sm-3'>
+            <div class="form-group">
+               <div class='input-group date' id='datetimepicker5'>
+                  <div class="mb-3">
+                    <label for="fecha" class="form-label">Fecha de cumpleaños</label> 
+                    <input type='date' required="true" value="{{inf.3}}" class="form-control" name="fecha"/>
+                  </div>                  
+                  <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+               </div>
+            </div>
+         </div>
+         <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker5').datetimepicker({
+                    defaultDate: "11/1/2013",
+                    disabledDates: [
+                        moment("12/25/2013"),
+                        new Date(2013, 11 - 1, 21),
+                        "11/22/2013 00:53"
+                    ]
+                });
+            });
+         </script>
+
+    </div>
+    <div class="mb-3">
+    
+    </div>
+    <button type="submit" class="btn btn-secondary">Editar</button>
+    <a class="btn btn-danger" href="{{url_for("delete",id=inf.0)}}">Elimiar</a>
+
+{% endfor %}
+  </form>
+  
+  <br>        
+ 
+
+
+  
+    
+  
+    
+{% endblock %}
