@@ -3,5 +3,17 @@
 {% block content %}
 
 <h1>Hola {{name | upper}}</h1>
+<form action="/add" method="post" >       
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email</label>
+        <input type="email" required="true" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Contraseña </label> <br>
+        <input type="password" required="true" class="form-floating" name="password1" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>   
+    <button type="submit" class="btn btn-primary">Submit</button>      
+</form>
+{{check}}
 
 {% endblock %}

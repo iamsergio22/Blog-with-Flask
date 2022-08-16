@@ -1,11 +1,14 @@
-from functools import reduce
 from urllib.error import URLError
 from flask import flash, Flask, render_template, request, url_for, redirect
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from flask_mysqldb import MySQL  # Necesario para la conexion a DB
 import mysql.connector  # Necesario para la conexion a DB
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime
+# texto="x?1_aP-1M.4!eM"
+# texto_encriptado=generate_password_hash(texto)
+# print(texto_encriptado)
+# print(check_password_hash(texto_encriptado,texto))
 
 
 # Crear una instancia de Flask
@@ -41,13 +44,20 @@ def add():
         nombre = request.form['nombre']
         email = request.form['email']
         fecha = request.form['fecha']
-        cur = conn.cursor()
-        cur.execute(
-            'INSERT INTO users (nombre,correo,Fecha) VALUES (%s,%s,%s)', (nombre, email, fecha))
-        conn.commit()
-        flash("User Registrado!!!")
-        # Estoy redireccionando a la funcion name que tiene la vista name y tambien me consulta lo que hay en la base de datos.
-        return redirect(url_for('name'))
+        password = request.form['password1']
+        password2 = request.form['password2']
+        if password2 == password:
+            passwordFinal = generate_password_hash(password)
+            cur = conn.cursor()
+            cur.execute(
+                'INSERT INTO users (nombre,correo,password1,Fecha) VALUES (%s,%s,%s,%s)', (nombre, email, passwordFinal, fecha))
+            conn.commit()
+            flash("User Registrado!!!")
+            # Estoy redireccionando a la funcion name que tiene la vista name y tambien me consulta lo que hay en la base de datos.
+            return redirect(url_for('name'))
+        else:
+            flash("las claves no coinciden")
+            return redirect(url_for('name'))
 
 # SEARCH TO DB
 
@@ -89,6 +99,8 @@ def update(id):
         return redirect(url_for('name'))
 
 # DELETE OF BD
+
+
 @app.route('/delete/<id>')
 def delete(id):
     cur = conn.cursor()
@@ -97,8 +109,45 @@ def delete(id):
     flash("registro eliminado")
     return redirect(url_for('name'))
 
+
+# agregando post 
+@app.route('/post')
+def post():
+    return render_template("add-post.html")
+
+@app.route('/add-post', methods=['GET','POST'])
+def addpost():
+    if request.method=='POST':
+        title=request.form['title']
+        content=request.form['Content']
+        author=request.form['author']
+        slug=request.form['slug']
+        fechaPubli=datetime.now()        
+        cur=conn.cursor()
+        cur.execute("INSERT INTO posts (title,content,author,slug,date_posted) VALUES (%s,%s,%s,%s,%s)",(title,content,author,slug,fechaPubli))
+        conn.commit()
+        flash("Post Publicado")
+        return redirect(url_for("post"))
+    else:
+        flash("Hubo un error al publicar el post")
+        return redirect(url_for("name"))
+    
+# ver post 
+@app.route('/ShowPost')
+def ShowPost():
+    cur=conn.cursor()
+    cur.execute("SELECT * FROM posts")
+    data=cur.fetchall()
+    posts=data
+    print(posts)
+    return render_template("post.html",post=posts)
+    
+
+
+
+
 @app.route('/user/<name>')
-def user(name):
+def user(name):    
     return render_template("user.html", name=name)
 
 

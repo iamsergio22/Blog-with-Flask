@@ -9,15 +9,24 @@
     </div>
     
 {% endfor %}
-
-<form action="/add" method="post">
-    <div class="mb-3">
+<h1>User List</h1>
+<div class="container" id="marcado" class="col-md-4">
+<br action="/add" method="post" >
+    <div class="mb-9">
       <label for="exampleInputEmail1" class="form-label" >Nombre</label>
       <input type="text" class="form-control" required="true" name="nombre" id="exampleInputEmail1" aria-describedby="emailHelp">      
     </div>     
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email</label>
         <input type="email" required="true" class="form-control" name="email" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Contraseña </label> <br>
+        <input type="password" required="true" class="form-floating" name="password1" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Confirme Contraseña</label> <br>
+        <input type="password" required="true" class="form-floating" name="password2" id="exampleInputEmail1" aria-describedby="emailHelp">
     </div>
     
       <div class="row">
@@ -51,18 +60,20 @@
     <div class="mb-3">
       
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>   
+    <button type="submit" class="btn btn-primary">Submit</button>   <br></br>
     
   </form>
+</div>
   
   <br>
-  
-  <table class="table"> 
+<div class="table-responsive">  
+  <table class="table table-sm ">
     <thead>
       <tr>
         <th scope="col">#</th>
         <th scope="col">Nombre</th>
         <th scope="col">Correo</th>
+        <!-- <th scope="col">Password</th> -->
         <th scope="col">Fecha de cumpleaños</th>
         <th scope="col">Operaciones</th>
       </tr>
@@ -73,13 +84,14 @@
         <th scope="row">{{user.0}}</th>
         <td><a href="{{url_for('edit',id=user.0)}}">{{user.1}}</a></td>
         <td>{{user.2}}</td>
-        <td>{{user.3}}</td>
-       <td><a class="btn btn-danger pt-1 m-0" href="{{url_for("delete",id=user.0)}}">Eliminar</a></td>
-       <td><a class="btn btn-success pt-1 m-sm-0" href="{{url_for("edit",id=user.0)}}">Editar</a></td>
+        <!-- <td>{{user.3}}</td> -->
+        <td>{{user.4}}</td>
+       <td><a class="btn btn-danger" href="{{url_for("delete",id=user.0)}}">Eliminar</a> <a class="btn btn-success" href="{{url_for("edit",id=user.0)}}">Editar</a> </td>       
       </tr>
       {% endfor%}     
     </tbody>
   </table>
+</div>  
 
 
   

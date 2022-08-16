@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages()%}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor %}
+<h1>Add Blog Post</h1>
+<form action="/add-post" method="POST" >
+    <div class="mb-9">
+      <label for="exampleInputEmail1" class="form-label" >Title</label>
+      <input type="text" class="form-control" required="true" name="title" id="exampleInputEmail1" aria-describedby="emailHelp">      
+    </div>            
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Author </label> <br>
+        <input type="text" required="true" class="form-control" name="author" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">slug</label> <br>
+        <input type="text" required="true" class="form-control" name="slug" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>   
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Content</label>
+        <textarea type="texta" required="true" class="form-control" name="Content" id="exampleInputEmail1" aria-describedby="emailHelp"></textarea>
+    </div>  
+    <button type="submit" class="btn btn-primary">Submit</button>       
+  </form>
+  
+<script>
+var textarea = document.querySelector('textarea');
+
+textarea.addEventListener('keydown', autosize);
+             
+function autosize(){
+  var el = this;
+  setTimeout(function(){
+    el.style.cssText = 'height:auto; padding:0';
+    el.style.cssText = 'height:' + el.scrollHeight + 'px';
+  },0);
+}
+</script>
+{% endblock %}
