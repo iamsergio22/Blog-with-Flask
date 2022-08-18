@@ -1,4 +1,3 @@
-from urllib.error import URLError
 from flask import flash, Flask, render_template, request, url_for, redirect
 from wtforms.validators import DataRequired
 from flask_mysqldb import MySQL  # Necesario para la conexion a DB
@@ -132,15 +131,60 @@ def addpost():
         flash("Hubo un error al publicar el post")
         return redirect(url_for("name"))
     
-# ver post 
+# ver todos los posts 
 @app.route('/ShowPost')
 def ShowPost():
     cur=conn.cursor()
     cur.execute("SELECT * FROM posts")
     data=cur.fetchall()
+    posts=data    
+    return render_template("post.html",posts=posts)
+
+# Ver post individual 
+@app.route('/ShowPost/<id>')
+def PostIndi(id):
+    cur=conn.cursor()
+    cur.execute("SELECT * FROM posts WHERE id={0}".format(id))
+    data=cur.fetchall()
     posts=data
-    print(posts)
-    return render_template("post.html",post=posts)
+    return render_template("postIndi.html",posts=posts)
+    
+    
+    
+# editar post 
+@app.route('/ShowPost/edit/<id>', methods=['POST','GET'])
+def edit_post(id):
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM posts WHERE id=%s", [id])
+    info = cur.fetchall()
+    return render_template('edit_post.html', info=info)
+
+@app.route('/ShowPost/update/<id>', methods=['POST'])
+def updatePost(id):
+    if request.method == 'POST':        
+        title = request.form['title']
+        author = request.form['author']
+        slug = request.form['slug']
+        Content = request.form['Content']        
+        cur = conn.cursor()
+        cur.execute("""UPDATE posts SET title=%s,content=%s,author=%s,slug=%s WHERE id=%s""",
+                    (title, Content,author, slug, id))
+        conn.commit()
+        flash("Post Actualizado!")
+        return redirect(url_for('ShowPost'))
+    else:
+        flash("no se pudo realizar la edición")
+        return redirect(url_for('name'))
+    
+    
+# Eliminar post 
+@app.route('/ShowPost/delete/<id>')
+def DeletePost(id):
+    cur=conn.cursor()
+    cur.execute("DELETE FROM posts WHERE id={0}".format(id))
+    conn.commit()
+    flash("Post Eliminado con exito!")
+    return redirect(url_for('ShowPost'))
     
 
 

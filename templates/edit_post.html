@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for message in get_flashed_messages()%}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+{% endfor %}
+{% for inf in info %}
+<h1>Edit Blog Post</h1>
+<form action="/ShowPost/update/{{inf.0}}" method="POST" >
+    <div class="mb-9">
+      <label for="exampleInputEmail1" class="form-label" >Title</label>
+      <input type="text" class="form-control" required="true" value="{{inf.1}}" name="title" id="exampleInputEmail1" aria-describedby="emailHelp">      
+    </div>            
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Author </label> <br>
+        <input type="text" required="true" class="form-control" name="author" value="{{inf.3}}" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">slug</label> <br>
+        <input type="text" required="true" class="form-control" name="slug" value="{{inf.5}}" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>   
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Content</label> <br>
+        <input type="text" required="true" class="form-control" value="{{inf.2}}" name="Content" id="exampleInputEmail1" aria-describedby="emailHelp"></input>
+    </div>  
+    <button type="submit" class="btn btn-primary">Editar</button>
+    <a href="{{url_for("PostIndi",id=inf.0)}}" class="btn btn-outline-secondary">Back To Posts</a>
+    <a href="{{url_for("DeletePost",id=inf.0)}}" class="btn btn-outline-danger">Delete Post</a>
+   
+  </form>
+
+{% endfor %}
+  
+<script>
+var textarea = document.querySelector('textarea');
+
+textarea.addEventListener('keydown', autosize);
+             
+function autosize(){
+  var el = this;
+  setTimeout(function(){
+    el.style.cssText = 'height:auto; padding:0';
+    el.style.cssText = 'height:' + el.scrollHeight + 'px';
+  },0);
+}
+</script>
+{% endblock %}
