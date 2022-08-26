@@ -26,7 +26,8 @@
     </div>   
     <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Content</label> <br>
-        <input type="text" required="true" class="form-control" value="{{inf.2}}" name="Content" id="exampleInputEmail1" aria-describedby="emailHelp"></input>
+        <!-- <input type="text" required="true" class="form-control" value="{{inf.2}}" name="Content" id="exampleInputEmail1" aria-describedby="emailHelp"></input> -->
+        <textarea type="text" required="true" class="form-control" name="Content" id="exampleInputEmail1" rows="5"  aria-describedby="emailHelp">{{inf.2}}</textarea>
     </div>  
     <button type="submit" class="btn btn-primary">Editar</button>
     <a href="{{url_for("PostIndi",id=inf.0)}}" class="btn btn-outline-secondary">Back To Posts</a>

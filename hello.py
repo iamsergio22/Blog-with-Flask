@@ -4,6 +4,11 @@ from flask_mysqldb import MySQL  # Necesario para la conexion a DB
 import mysql.connector  # Necesario para la conexion a DB
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_wtf.csrf import CSRFProtect
+
+from models.ModelUser import ModelUser
+from models.entities.User import User
 # texto="x?1_aP-1M.4!eM"
 # texto_encriptado=generate_password_hash(texto)
 # print(texto_encriptado)
@@ -14,12 +19,41 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "mi super clave secrssseta"
 
+csrf=CSRFProtect
+login_manager_app=LoginManager(app)
+
+@login_manager_app.user_loader
+def load_user(id):
+    return ModelUser.get_by_id(conn,id)
+
 # Ventana por defecto/index
-
-
 @app.route('/')
 def index():
-    return render_template("index.html")
+    return redirect(url_for("login"))
+
+@app.route('/login', methods=['GET','POST'])
+def login():
+    if request.method=='POST':
+        user=User(0,request.form['nombre'],request.form['password'])
+        logged_user=ModelUser.login(conn,user)
+        if logged_user != None:
+            if logged_user.password:
+                login_user(logged_user)
+                return redirect(url_for("name"))
+            else:
+                flash("Invalid password...")
+                return render_template('login.html')
+        else:
+            flash("User not found...")           
+            return render_template('login.html')
+    else:
+        return render_template("login.html")
+    
+@app.route('/logout')
+def logout():
+    logout_user
+    return redirect(url_for("login"))
+    
 
 
 # BASE DE DATOS ⬇️⬇️⬇️⬇️⬇️⬇️
@@ -32,9 +66,7 @@ conn = mysql.connector.connect(
     db='blog',
 )
 
-# INSERTAR EN BD
-
-
+# INSERTAR USER EN BD
 @app.route('/add', methods=['POST'])
 def add():
     # Si a esta ruta se le envia algo atraves del metodo 'POST' entonces haga esto:
@@ -206,5 +238,7 @@ def page_not_found(e):
     return render_template("500.html"), 500
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':    
     app.run(port=3000, debug=True)
+    csrf.init_app(app)
+    

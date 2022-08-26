@@ -11,7 +11,7 @@
 {% endfor %}
 <h1>User List</h1>
 <div class="container" id="marcado" class="col-md-4">
-<br action="/add" method="post" >
+<form action="/add" method="post" >
     <div class="mb-9">
       <label for="exampleInputEmail1" class="form-label" >Nombre</label>
       <input type="text" class="form-control" required="true" name="nombre" id="exampleInputEmail1" aria-describedby="emailHelp">      
@@ -60,7 +60,7 @@
     <div class="mb-3">
       
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>   <br></br>
+    <button type="submit" class="btn btn-primary">Submit</button>   <br></form>
     
   </form>
 </div>
@@ -86,7 +86,7 @@
         <td>{{user.2}}</td>
         <!-- <td>{{user.3}}</td> -->
         <td>{{user.4}}</td>
-       <td><a class="btn btn-danger" href="{{url_for("delete",id=user.0)}}">Eliminar</a> <a class="btn btn-success" href="{{url_for("edit",id=user.0)}}">Editar</a> </td>       
+       <td><a class="btn btn-danger" href="{{url_for("delete",id=user.0)}}"><i class="fa-solid fa-trash-can"></i></a> <a class="btn btn-success" href="{{url_for("edit",id=user.0)}}"><i class="fa-solid fa-pen-to-square"></i></a> </td>       
       </tr>
       {% endfor%}     
     </tbody>
