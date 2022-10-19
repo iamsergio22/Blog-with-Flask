@@ -1,4 +1,4 @@
-<h1>Used technology: </h1> <br>
+<h3>Used technology: </h3> <br>
 -Pthon <br>
 -Flask <br>
 -MySQL <br>
