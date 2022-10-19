@@ -1,5 +1,5 @@
-Used technology:
--Pthon
+Used technology: <br>
+-Pthon <br>
 -Flask
 -MySQL
 -Boostrap
